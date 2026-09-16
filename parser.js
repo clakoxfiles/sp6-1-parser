@@ -72,7 +72,7 @@ function getCurrency(symbolsArr) {
     }  else if (symbolsArr[0] === '€') {
         return 'EUR'
     }  else {
-        'Неизвестная валюта.'
+        return 'Неизвестная валюта.'
     }
 }
 
