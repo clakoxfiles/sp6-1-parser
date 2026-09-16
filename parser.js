@@ -102,6 +102,23 @@ function formatDescription() {
     return `${descriptionContainer.innerHTML.trim()}`
 }
 
+// check filled rating stars
+function getReviewRating(el) {
+    const ratingStars = el.querySelectorAll('.rating span')
+    let rating = 0
+
+        ratingStars.forEach(el => {
+            const classList = el.classList
+                classList.forEach(cl => {
+                    if (cl === 'filled') {
+                        rating += 1
+                    }
+                })
+        })
+
+    return rating
+}
+
 // meta function
 function parseMeta(formatPageTitle, formatOpenGraphTags) {
     const description = document.querySelector('meta[name="description"]').getAttribute('content')
@@ -163,7 +180,31 @@ function parseSuggested() {
 
 // reviews function
 function parseReviews() {
+    const reviews = document.querySelectorAll('.reviews .items article')
 
+    const formattedReviewsArray = []
+
+    reviews.forEach(el => {
+        const rating = getReviewRating(el)
+        const title = el.querySelector('div .title').textContent
+        const description = el.querySelector('div p').textContent
+        const date = el.querySelector('.author i').textContent.replaceAll('/', '.')
+
+        const authorContainer = el.querySelectorAll('.author')
+        const author = {}
+            
+            authorContainer.forEach(el => {
+                const avatar = el.querySelector('img').getAttribute('src')
+                const name = el.querySelector('span').textContent
+
+                author.avatar = avatar
+                author.name = name
+            })
+
+        formattedReviewsArray.push( {rating, title, description, author, date} )
+    })
+    
+    return formattedReviewsArray
 }
 
 // arguments
