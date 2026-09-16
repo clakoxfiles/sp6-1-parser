@@ -122,7 +122,7 @@ function getReviewRating(el) {
 // meta function
 function parseMeta(formatPageTitle, formatOpenGraphTags) {
     const description = document.querySelector('meta[name="description"]').getAttribute('content')
-    const keywords = document.querySelector('meta[name="keywords"]').getAttribute('content').split(',')
+    const keywords = document.querySelector('meta[name="keywords"]').getAttribute('content').split(', ')
     const language = document.querySelector('html').getAttribute('lang')
     
     return {
