@@ -36,9 +36,9 @@ function getImagesArray() {
         const alt = el.getAttribute('alt')
 
         array.push( {preview, full, alt} )
-
-        return array
     })
+
+    return array
 }
 
 
@@ -141,6 +141,31 @@ function parseProduct(getImagesArray, getTags, formatProperties, formatDescripti
     }
 }
 
+// suggested products function
+function parseSuggested() {
+    const items = document.querySelectorAll('.suggested .items article')
+    const formattedItemsArray = []
+
+    items.forEach(el => {
+        const image = el.querySelector('img').getAttribute('src')
+        const name = el.querySelector('h3').textContent
+        const description = el.querySelector('p').textContent
+        const price = el.querySelector('b').textContent.replaceAll('₽', '').replaceAll('$', '').replaceAll('€', '')
+        
+        const priceSymbolsArray = el.querySelector('b').textContent.split('')
+        const currency = getCurrency(priceSymbolsArray)
+
+        formattedItemsArray.push( {image, name, description, price, currency} )
+    })
+
+    return formattedItemsArray
+}
+
+// reviews function
+function parseReviews() {
+
+}
+
 // arguments
 const pageTitle = document.querySelector('title')
 const openGraphTitle = document.querySelector('meta[property="og:title"]').getAttribute('content')
@@ -150,8 +175,8 @@ function parsePage() {
     return {
         meta: parseMeta(formatPageTitle(pageTitle), formatOpenGraphTags(formatPageTitle(openGraphTitle))),
         product: parseProduct(getImagesArray(), getTags(), formatProperties(), formatDescription()),
-        suggested: [],
-        reviews: []
+        suggested: parseSuggested(),
+        reviews: parseReviews(),
     };
 }
 
